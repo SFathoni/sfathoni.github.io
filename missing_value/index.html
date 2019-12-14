@@ -1,0 +1,238 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=description content="Catatan Penambangan Data"><link href=https://sfathoni.github.io/missing_value/ rel=canonical><meta name=author content="Akhmad Shulthon Fathoni (140411100136)"><meta name=lang:clipboard.copy content="Copy to clipboard"><meta name=lang:clipboard.copied content="Copied to clipboard"><meta name=lang:search.language content=en><meta name=lang:search.pipeline.stopwords content=True><meta name=lang:search.pipeline.trimmer content=True><meta name=lang:search.result.none content="No matching documents"><meta name=lang:search.result.one content="1 matching document"><meta name=lang:search.result.other content="# matching documents"><meta name=lang:search.tokenizer content=[\s\-]+><link rel="shortcut icon" href=../assets/images/favicon.png><meta name=generator content="mkdocs-1.0.4, mkdocs-material-4.4.2"><title>Missing Values Dan K - Nearest Neighbor - Akhmad Shulthon Fathoni (140411100136)</title><link rel=stylesheet href=../assets/stylesheets/application.30686662.css><link rel=stylesheet href=../assets/stylesheets/application-palette.a8b3c06d.css><meta name=theme-color content=#3f51b5><script src=../assets/javascripts/modernizr.74668098.js></script><link href=https://fonts.gstatic.com rel=preconnect crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback"><style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style><link rel=stylesheet href=../assets/fonts/material-icons.css><link rel=manifest href=../manifest.webmanifest><script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "None", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-primary=indigo data-md-color-accent=indigo> <svg class=md-svg> <defs> <svg xmlns=http://www.w3.org/2000/svg width=416 height=448 viewbox="0 0 416 448" id=__github><path fill=currentColor d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg> </defs> </svg> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay data-md-component=overlay for=__drawer></label> <a href=#missing-value-in-data-mining tabindex=1 class=md-skip> Skip to content </a> <header class=md-header data-md-component=header> <nav class="md-header-nav md-grid"> <div class=md-flex> <div class="md-flex__cell md-flex__cell--shrink"> <a href=https://sfathoni.github.io/ title="Akhmad Shulthon Fathoni (140411100136)" class="md-header-nav__button md-logo"> <i class=md-icon></i> </a> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--menu md-header-nav__button" for=__drawer></label> </div> <div class="md-flex__cell md-flex__cell--stretch"> <div class="md-flex__ellipsis md-header-nav__title" data-md-component=title> <span class=md-header-nav__topic> Akhmad Shulthon Fathoni (140411100136) </span> <span class=md-header-nav__topic> Missing Values Dan K - Nearest Neighbor </span> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <label class="md-icon md-icon--search md-header-nav__button" for=__search></label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=query data-md-state=active> <label class="md-icon md-search__icon" for=__search></label> <button type=reset class="md-icon md-search__icon" data-md-component=reset tabindex=-1> &#xE5CD; </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=result> <div class=md-search-result__meta> Type to start searching </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> </div> <div class="md-flex__cell md-flex__cell--shrink"> <div class=md-header-nav__source> <a href=https://github.com/SFathoni/ title="Go to repository" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> SFathoni </div> </a> </div> </div> </div> </nav> </header> <div class=md-container> <main class=md-main role=main> <div class="md-main__inner md-grid" data-md-component=container> <div class="md-sidebar md-sidebar--primary" data-md-component=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" data-md-level=0> <label class="md-nav__title md-nav__title--site" for=__drawer> <a href=https://sfathoni.github.io/ title="Akhmad Shulthon Fathoni (140411100136)" class="md-nav__button md-logo"> <i class=md-icon></i> </a> Akhmad Shulthon Fathoni (140411100136) </label> <div class=md-nav__source> <a href=https://github.com/SFathoni/ title="Go to repository" class=md-source data-md-source=github> <div class=md-source__icon> <svg viewbox="0 0 24 24" width=24 height=24> <use xlink:href=#__github width=24 height=24></use> </svg> </div> <div class=md-source__repository> SFathoni </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=.. title=Memo class=md-nav__link> Memo </a> </li> <li class=md-nav__item> <a href=../statistik_deskriptif/ title="Statistik Deskriptif" class=md-nav__link> Statistik Deskriptif </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-toggle md-nav__toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> Missing Values Dan K - Nearest Neighbor </label> <a href=./ title="Missing Values Dan K - Nearest Neighbor" class="md-nav__link md-nav__link--active"> Missing Values Dan K - Nearest Neighbor </a> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>Table of contents</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#apa-itu-missing-value-dalam-data-minning class=md-nav__link> Apa itu Missing Value dalam Data Minning? </a> </li> <li class=md-nav__item> <a href=#mekanisme-dalam-mengatasi-missing-value class=md-nav__link> Mekanisme dalam Mengatasi Missing Value </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#prosedur-berbasis-unit class=md-nav__link> Prosedur Berbasis Unit </a> </li> <li class=md-nav__item> <a href=#prosedur-berbasis-imputasi class=md-nav__link> Prosedur Berbasis Imputasi </a> </li> <li class=md-nav__item> <a href=#klasifikasi-menggunakan-metode-knn-k-nearest-neighbor class=md-nav__link> Klasifikasi menggunakan Metode KNN (K-Nearest Neighbor) </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#sumber class=md-nav__link> Sumber </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../decission_tree/ title="Decision Tree" class=md-nav__link> Decision Tree </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary"> <label class=md-nav__title for=__toc>Table of contents</label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=#apa-itu-missing-value-dalam-data-minning class=md-nav__link> Apa itu Missing Value dalam Data Minning? </a> </li> <li class=md-nav__item> <a href=#mekanisme-dalam-mengatasi-missing-value class=md-nav__link> Mekanisme dalam Mengatasi Missing Value </a> <nav class=md-nav> <ul class=md-nav__list> <li class=md-nav__item> <a href=#prosedur-berbasis-unit class=md-nav__link> Prosedur Berbasis Unit </a> </li> <li class=md-nav__item> <a href=#prosedur-berbasis-imputasi class=md-nav__link> Prosedur Berbasis Imputasi </a> </li> <li class=md-nav__item> <a href=#klasifikasi-menggunakan-metode-knn-k-nearest-neighbor class=md-nav__link> Klasifikasi menggunakan Metode KNN (K-Nearest Neighbor) </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#sumber class=md-nav__link> Sumber </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content> <article class="md-content__inner md-typeset"> <a href=https://github.com/SFathoni/edit/master/docs/missing_value.md title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a> <h1 id=missing-value-in-data-mining>MISSING VALUE IN DATA MINING<a class=headerlink href=#missing-value-in-data-mining title="Permanent link">&para;</a></h1> <h2 id=apa-itu-missing-value-dalam-data-minning>Apa itu Missing Value dalam Data Minning?<a class=headerlink href=#apa-itu-missing-value-dalam-data-minning title="Permanent link">&para;</a></h2> <p>Missing value dapat menandakan sejumlah pengrtian yang berbeda. Mungkin pada bagian (nilai) tidak berlaku, tindakan yang tidak pernah terjadi, atau data tidak tersedia. Bisa jadi orang yang memasukkan data tidak tahu nilai yang benar, atau tidak peduli jika bidang tidak diisi.</p> <p>Namun, ada skenario penambangan data di mana nilai yang hilang memberikan informasi penting. Arti dari nilai-nilai yang hilang sangat tergantung pada konteks. Secara umum, Layanan Analisis memperlakukan nilai-nilai yang hilang sebagai informatif dan menyesuaikan probabilitas untuk memasukkan nilai-nilai yang hilang ke dalam perhitungannya.</p> <h2 id=mekanisme-dalam-mengatasi-missing-value>Mekanisme dalam Mengatasi Missing Value<a class=headerlink href=#mekanisme-dalam-mengatasi-missing-value title="Permanent link">&para;</a></h2> <h3 id=prosedur-berbasis-unit>Prosedur Berbasis Unit<a class=headerlink href=#prosedur-berbasis-unit title="Permanent link">&para;</a></h3> <p>Prosedur ini hanya analisis data yang lengkap. Sedangkan yang tidak lengkap akan diabaikan, atau bahkan dihilangkan.</p> <p>Metode ini memuaskan bila jumlah missing tidak terlalu besar, tapi prosedur ini menjadi tidak efisien jika persentase missing data lebih dari (n2/2).100</p> <h3 id=prosedur-berbasis-imputasi>Prosedur Berbasis Imputasi<a class=headerlink href=#prosedur-berbasis-imputasi title="Permanent link">&para;</a></h3> <p>Prosedur ini adalah cara yang umum dan fleksibel. Biasanya pemegang data mengganti dengan nilai-nilai yang berdekatan, atau dengan memasukkan nilai rata-rata yang telah ditentukan sebelumnya.</p> <h3 id=klasifikasi-menggunakan-metode-knn-k-nearest-neighbor>Klasifikasi menggunakan Metode KNN (K-Nearest Neighbor)<a class=headerlink href=#klasifikasi-menggunakan-metode-knn-k-nearest-neighbor title="Permanent link">&para;</a></h3> <p>klasifikasi menggunakan K-Nearest Neighbor dapat dilakukan dalam phyton seperti berikut</p> <p><strong>Pertama</strong>, <em>import package pandas dan numpy</em></p> <div class=codehilite><pre><span></span> <span class=kn>import</span> <span class=nn>pandas</span> <span class=kn>as</span> <span class=nn>pd</span>
+ <span class=kn>import</span> <span class=nn>numpy</span> <span class=kn>as</span> <span class=nn>np</span>
+</pre></div> <p><strong>Kedua</strong>, <em>menginput dan membaca 5 data teratas dari file phpelnJ6y.csv</em></p> <div class=codehilite><pre><span></span> <span class=n>australia</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span><span class=s1>&#39;phpelnJ6y.csv&#39;</span><span class=p>)</span>
+
+ <span class=n>australia</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</pre></div> <p><em>Maka output yang didapatkan yaitu</em></p> <table> <thead> <tr> <th align=right></th> <th align=right>A1</th> <th align=right>A2</th> <th align=right>A3</th> <th align=right>A4</th> <th align=right>A5</th> <th align=right>A6</th> <th align=right>A7</th> <th align=right>A8</th> <th align=right>A9</th> <th align=right>A10</th> <th align=right>A11</th> <th align=right>A12</th> <th align=right>A13</th> <th align=right>A14</th> <th align=right>A15</th> </tr> </thead> <tbody> <tr> <td align=right>0</td> <td align=right>1</td> <td align=right>65</td> <td align=right>168</td> <td align=right>2</td> <td align=right>4</td> <td align=right>4</td> <td align=right>39</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>1</td> <td align=right>2</td> <td align=right>32</td> <td align=right>161</td> <td align=right>0</td> </tr> <tr> <td align=right>1</td> <td align=right>0</td> <td align=right>72</td> <td align=right>123</td> <td align=right>2</td> <td align=right>8</td> <td align=right>4</td> <td align=right>5</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>0</td> <td align=right>2</td> <td align=right>53</td> <td align=right>1</td> <td align=right>0</td> </tr> <tr> <td align=right>2</td> <td align=right>0</td> <td align=right>142</td> <td align=right>52</td> <td align=right>1</td> <td align=right>4</td> <td align=right>4</td> <td align=right>31</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>1</td> <td align=right>2</td> <td align=right>98</td> <td align=right>1</td> <td align=right>0</td> </tr> <tr> <td align=right>3</td> <td align=right>0</td> <td align=right>60</td> <td align=right>169</td> <td align=right>1</td> <td align=right>5</td> <td align=right>3</td> <td align=right>1</td> <td align=right>1</td> <td align=right>1</td> <td align=right>12</td> <td align=right>1</td> <td align=right>2</td> <td align=right>1</td> <td align=right>1</td> <td align=right>1</td> </tr> <tr> <td align=right>4</td> <td align=right>1</td> <td align=right>44</td> <td align=right>134</td> <td align=right>2</td> <td align=right>6</td> <td align=right>4</td> <td align=right>46</td> <td align=right>1</td> <td align=right>1</td> <td align=right>15</td> <td align=right>0</td> <td align=right>2</td> <td align=right>18</td> <td align=right>68</td> <td align=right>1</td> </tr> </tbody> </table> <p><strong>Ketiga</strong>, <em>menampilkan informasi tentang jenis data Cryotherapy.</em></p> <div class=codehilite><pre><span></span><span class=n>australia</span><span class=o>.</span><span class=n>info</span><span class=p>()</span>
+</pre></div> <p><em><strong>Output</strong> :</em></p> <div class=codehilite><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 690 entries, 0 to 689
+Data columns (total 15 columns):
+A1     690 non-null int64
+A2     690 non-null int64
+A3     690 non-null int64
+A4     690 non-null int64
+A5     690 non-null int64
+A6     690 non-null int64
+A7     690 non-null int64
+A8     690 non-null int64
+A9     690 non-null int64
+A10    690 non-null int64
+A11    690 non-null int64
+A12    690 non-null int64
+A13    690 non-null int64
+A14    690 non-null int64
+A15    690 non-null int64
+dtypes: int64(15)
+memory usage: 80.9 KB
+</pre></div> <p>Berdasarkan <em>output</em> diatas, maka dapat diketahui bahwa dari data tipe datanya <em>integer</em>. </p> <p><em><strong>Keempat</strong>, menentukan variabel independen dari data sehingga, menghapus variabel dependen yaitu Result of Treatment.</em></p> <div class=codehilite><pre><span></span><span class=n>x</span> <span class=o>=</span> <span class=n>australia</span><span class=o>.</span><span class=n>drop</span><span class=p>([</span><span class=s1>&#39;A15&#39;</span><span class=p>],</span> <span class=n>axis</span> <span class=o>=</span> <span class=mi>1</span><span class=p>)</span>
+<span class=n>x</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</pre></div> <p><em><strong>Output :</strong></em></p> <table> <thead> <tr> <th align=right></th> <th align=right>A1</th> <th align=right>A2</th> <th align=right>A3</th> <th align=right>A4</th> <th align=right>A5</th> <th align=right>A6</th> <th align=right>A7</th> <th align=right>A8</th> <th align=right>A9</th> <th align=right>A10</th> <th align=right>A11</th> <th align=right>A12</th> <th align=right>A13</th> <th align=right>A14</th> </tr> </thead> <tbody> <tr> <td align=right>0</td> <td align=right>1</td> <td align=right>65</td> <td align=right>168</td> <td align=right>2</td> <td align=right>4</td> <td align=right>4</td> <td align=right>39</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>1</td> <td align=right>2</td> <td align=right>32</td> <td align=right>161</td> </tr> <tr> <td align=right>1</td> <td align=right>0</td> <td align=right>72</td> <td align=right>123</td> <td align=right>2</td> <td align=right>8</td> <td align=right>4</td> <td align=right>5</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>0</td> <td align=right>2</td> <td align=right>53</td> <td align=right>1</td> </tr> <tr> <td align=right>2</td> <td align=right>0</td> <td align=right>142</td> <td align=right>52</td> <td align=right>1</td> <td align=right>4</td> <td align=right>4</td> <td align=right>31</td> <td align=right>0</td> <td align=right>0</td> <td align=right>1</td> <td align=right>1</td> <td align=right>2</td> <td align=right>98</td> <td align=right>1</td> </tr> <tr> <td align=right>3</td> <td align=right>0</td> <td align=right>60</td> <td align=right>169</td> <td align=right>1</td> <td align=right>5</td> <td align=right>3</td> <td align=right>1</td> <td align=right>1</td> <td align=right>1</td> <td align=right>12</td> <td align=right>1</td> <td align=right>2</td> <td align=right>1</td> <td align=right>1</td> </tr> <tr> <td align=right>4</td> <td align=right>1</td> <td align=right>44</td> <td align=right>134</td> <td align=right>2</td> <td align=right>6</td> <td align=right>4</td> <td align=right>46</td> <td align=right>1</td> <td align=right>1</td> <td align=right>15</td> <td align=right>0</td> <td align=right>2</td> <td align=right>18</td> <td align=right>68</td> </tr> </tbody> </table> <p><em><strong>Kelima</strong>, menampilkan data variabel dependen yaitu Result of Treatment.</em></p> <div class=codehilite><pre><span></span><span class=n>y</span> <span class=o>=</span> <span class=n>australia</span><span class=p>[</span><span class=s1>&#39;A15&#39;</span><span class=p>]</span>
+<span class=n>y</span><span class=o>.</span><span class=n>head</span><span class=p>()</span>
+</pre></div> <p><em><strong>Output :</strong></em></p> <div class=codehilite><pre><span></span>0    0
+1    0
+2    0
+3    1
+4    1
+Name: A15, dtype: int64
+</pre></div> <p><em><strong>Keenam</strong>, membagi data training dan data training.</em></p> <div class=codehilite><pre><span></span><span class=kn>from</span> <span class=nn>sklearn.model_selection</span> <span class=kn>import</span> <span class=n>train_test_split</span>
+<span class=n>x_train</span><span class=p>,</span> <span class=n>x_test</span><span class=p>,</span> <span class=n>y_train</span><span class=p>,</span> <span class=n>y_test</span> <span class=o>=</span> <span class=n>train_test_split</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>test_size</span> <span class=o>=</span> <span class=mf>0.2</span><span class=p>,</span> <span class=n>random_state</span> <span class=o>=</span> <span class=mi>123</span><span class=p>)</span>
+</pre></div> <p><em><strong>Ketujuh</strong>, mengubah skala data.</em></p> <div class=codehilite><pre><span></span><span class=kn>from</span> <span class=nn>sklearn.preprocessing</span> <span class=kn>import</span> <span class=n>StandardScaler</span>
+<span class=n>scaler</span> <span class=o>=</span> <span class=n>StandardScaler</span><span class=p>()</span>
+<span class=n>scaler</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>x_train</span><span class=p>)</span>
+<span class=n>x_train</span> <span class=o>=</span> <span class=n>scaler</span><span class=o>.</span><span class=n>transform</span><span class=p>(</span><span class=n>x_train</span><span class=p>)</span>
+<span class=n>x_test</span> <span class=o>=</span> <span class=n>scaler</span><span class=o>.</span><span class=n>transform</span><span class=p>(</span><span class=n>x_test</span><span class=p>)</span>
+</pre></div> <p><em><strong>Kedelapan</strong>, Mengaktifkan fungsi klasifikasi.</em></p> <div class=codehilite><pre><span></span><span class=kn>from</span> <span class=nn>sklearn.neighbors</span> <span class=kn>import</span> <span class=n>KNeighborsClassifier</span>
+<span class=n>klasifikasi</span> <span class=o>=</span> <span class=n>KNeighborsClassifier</span><span class=p>(</span><span class=n>n_neighbors</span><span class=o>=</span><span class=mi>5</span><span class=p>)</span>
+</pre></div> <p><em><strong>Kesembilan</strong>, Menginput data training pada fungsi klasifikasi.</em></p> <div class=codehilite><pre><span></span><span class=n>klasifikasi</span><span class=o>.</span><span class=n>fit</span><span class=p>(</span><span class=n>x_train</span><span class=p>,</span> <span class=n>y_train</span><span class=p>)</span>
+</pre></div> <p><em>__Output : __</em></p> <div class=codehilite><pre><span></span>KNeighborsClassifier(algorithm=&#39;auto&#39;, leaf_size=30, metric=&#39;minkowski&#39;,
+                     metric_params=None, n_jobs=None, n_neighbors=5, p=2,
+                     weights=&#39;uniform&#39;)
+</pre></div> <p><em><strong>Kesepuluh</strong>, Menentukan hasil prediksi dari x_test.</em></p> <div class=codehilite><pre><span></span><span class=n>y_pred</span> <span class=o>=</span> <span class=n>klasifikasi</span><span class=o>.</span><span class=n>predict</span><span class=p>(</span><span class=n>x_test</span><span class=p>)</span>
+<span class=n>y_pred</span>
+</pre></div> <p><em><strong>Output</strong></em></p> <div class=codehilite><pre><span></span>array([0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0,
+       0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+       0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0,
+       1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1,
+       0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1,
+       1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0,
+       0, 0, 1, 0, 1, 0], dtype=int64)
+</pre></div> <p><em><strong>Kesebelas</strong>, menentukan probabilitas dari hasil prediksi.</em></p> <div class=codehilite><pre><span></span><span class=n>klasifikasi</span><span class=o>.</span><span class=n>predict_proba</span><span class=p>(</span><span class=n>x_test</span><span class=p>)</span>
+</pre></div> <p><em><strong>Output</strong></em></p> <div class=codehilite><pre><span></span>array([[0.8, 0.2],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.4, 0.6],
+       [0.2, 0.8],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.2, 0.8],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0.6, 0.4],
+       [0.2, 0.8],
+       [0. , 1. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0.2, 0.8],
+       [0. , 1. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [0. , 1. ],
+       [0. , 1. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [0.6, 0.4],
+       [0.6, 0.4],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [0.4, 0.6],
+       [0.8, 0.2],
+       [0.2, 0.8],
+       [0. , 1. ],
+       [0. , 1. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0. , 1. ],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.4, 0.6],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.6, 0.4],
+       [0.2, 0.8],
+       [0.8, 0.2],
+       [0.4, 0.6],
+       [0.2, 0.8],
+       [0. , 1. ],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0.2, 0.8],
+       [0. , 1. ],
+       [0. , 1. ],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0. , 1. ],
+       [0.8, 0.2],
+       [0.2, 0.8],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.4, 0.6],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.6, 0.4],
+       [0. , 1. ],
+       [0.4, 0.6],
+       [0.8, 0.2],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0.6, 0.4],
+       [0. , 1. ],
+       [0.8, 0.2],
+       [0.8, 0.2],
+       [0.4, 0.6],
+       [0.2, 0.8],
+       [0.2, 0.8],
+       [0.4, 0.6],
+       [0.8, 0.2],
+       [0.4, 0.6],
+       [0. , 1. ],
+       [0. , 1. ],
+       [1. , 0. ],
+       [0.4, 0.6],
+       [0.2, 0.8],
+       [0.2, 0.8],
+       [0.2, 0.8],
+       [0.4, 0.6],
+       [0. , 1. ],
+       [1. , 0. ],
+       [0.8, 0.2],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0.6, 0.4],
+       [0.8, 0.2],
+       [0.6, 0.4],
+       [0. , 1. ],
+       [0.2, 0.8],
+       [1. , 0. ],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.6, 0.4],
+       [0.8, 0.2],
+       [1. , 0. ],
+       [0. , 1. ],
+       [0.6, 0.4],
+       [0.2, 0.8],
+       [0.6, 0.4]])
+</pre></div> <p><em><strong>Keduabelas</strong>, menampilkan <strong>confussion matrix</strong> hasil prediksi klasifikasi (Report).</em></p> <div class=codehilite><pre><span></span><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>classification_report</span><span class=p>,</span> <span class=n>confusion_matrix</span>
+<span class=k>print</span><span class=p>(</span><span class=n>confusion_matrix</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>))</span>
+<span class=k>print</span> <span class=p>(</span><span class=s2>&quot;-----------------------------------------------------------------------&quot;</span><span class=p>)</span>
+<span class=k>print</span><span class=p>(</span><span class=n>classification_report</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>))</span>
+</pre></div> <p><em><strong>Output</strong></em></p> <div class=codehilite><pre><span></span>[[73 11]
+ [ 9 45]]
+-----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+           0       0.89      0.87      0.88        84
+           1       0.80      0.83      0.82        54
+
+    accuracy                           0.86       138
+   macro avg       0.85      0.85      0.85       138
+weighted avg       0.86      0.86      0.86       138
+</pre></div> <p><em><strong>Ketigabelas</strong>, untuk mengitung nilai akurasi maka import accuracy score.</em></p> <div class=codehilite><pre><span></span><span class=kn>from</span> <span class=nn>sklearn.metrics</span> <span class=kn>import</span> <span class=n>accuracy_score</span>
+<span class=n>accuracy</span> <span class=o>=</span> <span class=n>accuracy_score</span><span class=p>(</span><span class=n>y_test</span><span class=p>,</span> <span class=n>y_pred</span><span class=p>)</span>
+<span class=n>accuracy</span>
+</pre></div> <p><em><strong>Output</strong></em></p> <div class=codehilite><pre><span></span>0.855072463768116
+</pre></div> <p>Berdasarkan nilai <em>output</em> diatas , maka dapat diketahui bahwa nilai akurasi yang didapatkan yaitu 0.85507 .</p> <h2 id=sumber>Sumber<a class=headerlink href=#sumber title="Permanent link">&para;</a></h2> <p>Data yang saya ambil berada di:</p> <ul> <li><a href=https://www.openml.org/d/40981>https://www.openml.org/d/40981</a></li> </ul> <p>Sumber Bahasan:</p> <ul> <li> <p><a href=https://docs.microsoft.com/en-us/analysis-services/data-mining/missing-values-analysis-services-data-mining>https://docs.microsoft.com/en-us/analysis-services/data-mining/missing-values-analysis-services-data-mining</a></p> </li> <li> <p><a href=https://medium.com/@16611130/klasifikasi-menggunakan-metode-knn-k-nearest-neighbor-dalam-python-a40e79a74101>https://medium.com/@16611130/klasifikasi-menggunakan-metode-knn-k-nearest-neighbor-dalam-python-a40e79a74101</a></p> </li> </ul> </article> </div> </div> </main> <footer class=md-footer> <div class=md-footer-nav> <nav class="md-footer-nav__inner md-grid"> <a href=../statistik_deskriptif/ title="Statistik Deskriptif" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> Previous </span> Statistik Deskriptif </span> </div> </a> <a href=../decission_tree/ title="Decision Tree" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis> <span class=md-footer-nav__direction> Next </span> Decision Tree </span> </div> <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; 2019 Akhmad Shulthon Fathoni </div> powered by <a href=https://www.mkdocs.org>MkDocs</a> and <a href=https://squidfunk.github.io/mkdocs-material/ > Material for MkDocs</a> </div> <div class=md-footer-social> <link rel=stylesheet href=../assets/fonts/font-awesome.css> <a href=https://github.com/SFathoni/ class="md-footer-social__link fa fa-github-alt"></a> <a href=https://linkedin.com/in/SFathoni class="md-footer-social__link fa fa-linkedin"></a> <a href=https://instagram.com/mad.gears class="md-footer-social__link fa fa-instagram"></a> </div> </div> </div> </footer> </div> <script src=../assets/javascripts/application.c648116f.js></script> <script>app.initialize({version:"1.0.4",url:{base:".."}})</script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
